@@ -49,12 +49,14 @@ setupSwagger(app);
 app.use(errorHandler);
 
 // Start server
+let server: any;
+
 async function startServer() {
   try {
     // Connect to database
     await connectDatabase();
     
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
       console.log(`API Documentation: http://localhost:${PORT}/api-docs`);
     });
@@ -63,6 +65,30 @@ async function startServer() {
     process.exit(1);
   }
 }
+
+// Graceful shutdown
+const shutdown = async (signal: string) => {
+  logger.info(`${signal} received. Starting graceful shutdown...`);
+  
+  if (server) {
+    server.close(() => {
+      logger.info('HTTP server closed');
+    });
+  }
+
+  try {
+    const { pool } = require('./config/database');
+    await pool().end();
+    logger.info('Database pool closed');
+    process.exit(0);
+  } catch (err) {
+    logger.error('Error during database pool shutdown:', err);
+    process.exit(1);
+  }
+};
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
 
 startServer();
 
