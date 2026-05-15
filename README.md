@@ -54,8 +54,10 @@ Edit the `.env` file with your configuration.
 ```bash
 # Create database
 createdb myapp_db
-```
 
+# Run migrations
+npm run migrate:up
+```
 
 ## 🚀 Running the Application
 

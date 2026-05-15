@@ -23,6 +23,11 @@ npm run format       # Prettier format
 npm test             # Run tests once
 npm run test:watch   # Watch mode
 npm run test:coverage
+
+# Database Migrations
+npm run migrate:up      # Run pending migrations
+npm run migrate:down    # Rollback last migration
+npm run migrate:create -- name-of-migration # Create new migration
 ```
 
 ## Architecture
