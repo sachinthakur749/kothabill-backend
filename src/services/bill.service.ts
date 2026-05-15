@@ -32,11 +32,10 @@ export async function createBillService(
   const total = data.rent + data.electricity + data.water + data.dustbin;
 
   return createBill({
+    ...data,
     room_id: tenantLink.room_id,
     owner_id,
-    tenant_id: data.tenant_id,
     total,
-    ...data,
   });
 }
 

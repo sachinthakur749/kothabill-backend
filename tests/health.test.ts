@@ -10,10 +10,11 @@ describe('Health API', () => {
     expect(res.body).toHaveProperty('timestamp');
   });
 
-  it('GET /api/health should also return 200 OK via router', async () => {
+  it('GET /api/health should return 200 healthy via router', async () => {
     const res = await request(app).get('/api/health');
     
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('status', 'OK');
+    expect(res.body.success).toBe(true);
+    expect(res.body.data).toHaveProperty('status', 'healthy');
   });
 });

@@ -10,8 +10,8 @@ import {
 } from '../models/user.model';
 
 function generateToken(userId: string, role: string): string {
-  return jwt.sign({ id: userId, role }, process.env.JWT_SECRET!, {
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  return jwt.sign({ id: userId, role }, process.env.JWT_SECRET || 'secret', {
+    expiresIn: (process.env.JWT_EXPIRES_IN || '7d') as any,
   });
 }
 
