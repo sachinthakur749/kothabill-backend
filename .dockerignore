@@ -8,6 +8,5 @@ tests
 migrations
 *.md
 jest.config.json
-tsconfig.json
 .eslintrc.json
 .prettierrc
