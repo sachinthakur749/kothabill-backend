@@ -13,15 +13,19 @@ const transports: winston.transport[] = [
 ];
 
 if (process.env.NODE_ENV !== 'production') {
-  transports.push(
-    new winston.transports.File({
-      filename: path.join('logs', 'error.log'),
-      level: 'error',
-    }),
-    new winston.transports.File({
-      filename: path.join('logs', 'combined.log'),
-    })
-  );
+  try {
+    transports.push(
+      new winston.transports.File({
+        filename: path.join('logs', 'error.log'),
+        level: 'error',
+      }),
+      new winston.transports.File({
+        filename: path.join('logs', 'combined.log'),
+      })
+    );
+  } catch (err) {
+    console.warn('Winston file transports could not be initialized (falling back to console-only):', err);
+  }
 }
 
 const logger = winston.createLogger({

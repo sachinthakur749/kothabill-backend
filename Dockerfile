@@ -34,6 +34,10 @@ COPY --from=builder /app/dist ./dist
 
 # Create a non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Create a logs directory and ensure the non-root user owns it
+RUN mkdir -p /app/logs && chown -R appuser:appgroup /app/logs
+
 USER appuser
 
 # Expose the application port
